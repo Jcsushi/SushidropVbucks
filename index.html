@@ -1,184 +1,142 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barbería ZURDO</title>
-    <link rel="stylesheet" href="estilos.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pavos Automáticos · Sushi Drop</title>
+<style>
+:root{--bg:#f3effb;--card:#fff;--ink:#1c1740;--muted:#6b6785;--line:#d9d4e8;--soft:#f8f7fc;--p:#7c3aed;--p2:#5b21b6;--track:#ece6fb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14102a}}
+:root[data-theme="dark"]{--bg:#14102a}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;color:var(--ink);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px}
+.open{background:var(--p);color:#fff;border:0;border-radius:999px;padding:14px 24px;font-weight:700;font-size:16px;cursor:pointer}
+.overlay{position:fixed;inset:0;background:rgba(15,10,40,.6);display:flex;align-items:center;justify-content:center;padding:16px}
+.overlay[hidden]{display:none}
+.modal{width:100%;max-width:420px;background:var(--card);border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4);max-height:100%;overflow-y:auto}
+.head{position:relative;background:linear-gradient(160deg,#8b5cf6,#5b21b6 70%,#3b0f85);color:#fff;padding:28px 20px;display:flex;align-items:center;gap:16px}
+.head h2{margin:0;font-size:clamp(20px,6vw,26px);font-weight:900;letter-spacing:.3px;text-transform:uppercase;line-height:1.1}
+.head p{margin:6px 0 0;font-size:14px;color:#e4d9ff}
+.close{position:absolute;top:10px;right:10px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.88);color:#3b0f85;font-size:18px;cursor:pointer;display:grid;place-items:center}
+.cards{position:relative;width:76px;height:76px;flex:none}
+.cards i{position:absolute;width:40px;height:58px;border-radius:5px;top:10px;border:1px solid rgba(255,255,255,.4);font-style:normal;font-size:7px;font-weight:900;color:#fff;text-align:center;padding-top:6px}
+.cards i:nth-child(1){left:2px;transform:rotate(-12deg);background:linear-gradient(#a855f7,#6d28d9)}
+.cards i:nth-child(2){left:18px;z-index:2;top:4px;height:64px;background:linear-gradient(#c084fc,#4c1d95)}
+.cards i:nth-child(3){left:34px;transform:rotate(12deg);background:linear-gradient(#a855f7,#6d28d9)}
+.body{padding:24px 20px 8px}
+.q{text-align:center;color:var(--muted);font-size:15px}
+.big{display:flex;align-items:center;justify-content:center;gap:10px;margin:10px 0 18px;font-size:clamp(40px,12vw,54px);font-weight:900}
+.vb{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:18px;font-weight:900;flex:none}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:10px;border-radius:999px;background:linear-gradient(to right,var(--p) var(--pct,0%),var(--track) var(--pct,0%));outline:0;margin:6px 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:4px solid var(--p);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:4px solid var(--p);cursor:pointer}
+.lim{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:4px}
+.quick{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:22px 0}
+.quick button{background:#fff;color:var(--ink);border:1.5px solid var(--line);border-radius:999px;padding:10px 16px;font-weight:700;font-size:15px;cursor:pointer}
+.quick button.on{border-color:var(--p);background:#f4eeff;color:var(--p2);box-shadow:0 0 0 1px var(--p) inset}
+.manual{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--soft);border:1px solid #ece9f5;border-radius:16px;padding:14px 16px;font-weight:700;font-size:15px;color:#2a2550}
+.manual label{flex:1}
+.manual .f{display:flex;align-items:center;gap:8px;color:var(--muted)}
+.manual input{width:110px;border:2px solid var(--p);border-radius:12px;padding:10px 12px;font-size:18px;font-weight:800;text-align:right;color:var(--ink);background:#fff;outline:0;font-family:inherit}
+.manual input:focus{box-shadow:0 0 0 3px rgba(124,58,237,.25)}
+.hint{min-height:18px;margin:6px 4px 0;font-size:12px;color:#b45309;text-align:center}
+.foot{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:12px 20px 24px}
+.tot small{display:block;color:var(--muted);font-size:13px}
+.tot strong{font-size:clamp(26px,8vw,34px);font-weight:900;white-space:nowrap}
+.buy{display:flex;align-items:center;gap:8px;background:var(--p);color:#fff;border:0;border-radius:999px;padding:16px 26px;font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 6px 16px rgba(124,58,237,.4)}
+.buy:hover{background:var(--p2)}
+.buy:disabled{opacity:.5;cursor:not-allowed}
+.toast{text-align:center;font-size:14px;font-weight:700;color:#15803d;padding:0 20px 18px}
+.toast:empty{display:none}
+</style>
 </head>
 <body>
-    <header>
-        <h1>BARBERÍA ZURDO ✂️</h1>
-        <p>Cortes que definen tu estilo</p>
-        <nav>
-            <a href="#barberos">Barberos</a>
-            <a href="#clientes">Clientes</a>
-            <a href="#citas">Citas</a>
-            <a href="#archivos">Archivos</a>
-        </nav>
-    </header>
-<!-- Aquí salen los mensajes de éxito o error -->
-    <p id="mensaje"></p>
-    <div class="contenedor">
-<!-- BARBEROS -->
-        <section id="barberos">
-            <h2>Nuestros barberos</h2>
-            <table>
-                <thead>
-                    <tr><th>Nombre</th><th>Teléfono</th><th>Especialidad</th></tr>
-                </thead>
-                <tbody id="listaBarberos"></tbody>
-            </table>
-            <p>📍 Av. Mutualista &nbsp;|&nbsp; 🕘 Atención: 9:00 a 23:00</p>
-        </section>
-<!-- CLIENTES -->
-        <section id="clientes">
-            <h2>Clientes</h2>
-            <h3 id="tituloCliente">Registrar cliente</h3>
-            <form id="formCliente">
-                <label for="nombre">Nombre completo</label>
-                <input type="text" id="nombre" required minlength="3" maxlength="60" placeholder="Ej: Juan Pérez">
-                <small id="errorNombre" class="error"></small>
-                <label for="telefono">Teléfono (8 dígitos, empieza con 6 o 7)</label>
-                <input type="text" id="telefono" required pattern="[67][0-9]{7}" maxlength="8" placeholder="Ej: 76073808">
-                <small id="errorTelefono" class="error"></small>
-                <label for="correo">Correo (opcional)</label>
-                <input type="email" id="correo" placeholder="correo@ejemplo.com">
-                <small id="errorCorreo" class="error"></small>
-                <label for="tipo">Tipo de cliente</label>
-                <select id="tipo">
-                    <option value="normal">Normal</option>
-                    <option value="vip">VIP (15% de descuento)</option>
-                </select>
-                
-                <button type="submit" id="btnCliente">Registrar cliente</button>
-                <button type="button" id="btnCancelarCliente" class="gris" hidden>Cancelar</button>
-            </form>
-            <h3>Lista de clientes</h3>
-            <input type="text" id="buscarCliente" placeholder="Buscar cliente por nombre o teléfono...">
-            <table>
-                <thead>
-                    <tr><th>ID</th><th>Nombre</th><th>Teléfono</th><th>Tipo</th><th>Acciones</th></tr>
-                </thead>
-                <tbody id="listaClientes"></tbody>
-            </table>
-        </section>
-<!-- CITAS -->
-<section id="citas">
-    <h2>Citas</h2>
+<button class="open" id="open">Abrir Pavos Automáticos</button>
 
-    <div class="reserva-contenido">
+<div class="overlay" id="ov" role="dialog" aria-modal="true" aria-labelledby="ttl">
+ <div class="modal">
+  <div class="head">
+   <div class="cards" aria-hidden="true"><i>FORTNITE</i><i>FORTNITE</i><i>FORTNITE</i></div>
+   <div><h2 id="ttl">Pavos automáticos</h2><p>Recibes un código para canjearlos</p></div>
+   <button class="close" id="x" aria-label="Cerrar">✕</button>
+  </div>
+  <div class="body">
+   <div class="q">¿Cuántos V-Bucks quieres?</div>
+   <div class="big"><span class="vb">V</span><span id="big">200</span></div>
+   <input type="range" id="rng" min="200" max="13500" step="100" value="200" aria-label="Cantidad de V-Bucks">
+   <div class="lim"><span>200</span><span>13,500</span></div>
+   <div class="quick" id="quick"></div>
+   <div class="manual">
+    <label for="num">O escribe la cantidad exacta</label>
+    <div class="f"><input id="num" type="text" inputmode="numeric" autocomplete="off" value="200"><span>V</span></div>
+   </div>
+   <div class="hint" id="hint" aria-live="polite"></div>
+  </div>
+  <div class="foot">
+   <div class="tot"><small>Total</small><strong id="tot">USD 1.15</strong></div>
+   <button class="buy" id="buy">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.8L20 7H6"/></svg>
+    Comprar
+   </button>
+  </div>
+  <div class="toast" id="toast"></div>
+ </div>
+</div>
 
-        <!-- FORMULARIO DE RESERVA -->
-        <div class="reserva-formulario">
+<script>
+(function(){
+  var MIN=200, MAX=13500, STEP=100, QUICK=[1000,2800,5000,13500];
+  var $=function(i){return document.getElementById(i)};
+  var rng=$('rng'), num=$('num'), big=$('big'), tot=$('tot'), hint=$('hint'), toast=$('toast'), quick=$('quick');
+  var qty=MIN;
+  var fmt=function(n){return n.toLocaleString('en-US')};
 
-            <h3 id="tituloCita">Reservar cita</h3>
+  // Total = (V-Bucks / 200) * 1.15, redondeado a 2 decimales (aritmética entera: centavos = q*23/40)
+  function price(q){ var cents=Math.floor((q*23)/40+0.5); return (cents/100).toFixed(2); }
 
-            <form id="formCita">
-                <label for="citaCliente">Cliente</label>
-                <select id="citaCliente" required></select>
+  QUICK.forEach(function(v){
+    var b=document.createElement('button'); b.type='button'; b.textContent=fmt(v); b.dataset.v=v;
+    b.onclick=function(){ hint.textContent=''; set(v,true); };
+    quick.appendChild(b);
+  });
 
-                <label for="citaBarbero">Barbero</label>
-                <select id="citaBarbero" required></select>
+  function set(v,syncInput){
+    qty=Math.min(MAX,Math.max(MIN,Math.round(v/STEP)*STEP));
+    rng.value=qty;
+    rng.style.setProperty('--pct',((qty-MIN)/(MAX-MIN)*100)+'%');
+    big.textContent=fmt(qty);
+    tot.textContent='USD '+price(qty);
+    if(syncInput) num.value=qty;
+    Array.prototype.forEach.call(quick.children,function(b){ b.classList.toggle('on',+b.dataset.v===qty); });
+    toast.textContent='';
+  }
 
-                <label for="citaServicio">Servicio</label>
-                <select id="citaServicio" required></select>
+  rng.addEventListener('input',function(){ hint.textContent=''; set(+rng.value,true); });
 
-                <label for="citaFecha">Fecha</label>
-                <input type="date" id="citaFecha" required>
+  num.addEventListener('input',function(){
+    var digits=num.value.replace(/\D/g,'');
+    var n=digits===''?0:parseInt(digits,10);
+    if(n>MAX){ n=MAX; hint.textContent='El máximo es '+fmt(MAX)+' V-Bucks.'; }
+    else hint.textContent='';
+    num.value=digits===''?'':String(n);
+    if(n>=MIN){ set(n,false); if(n%STEP!==0) hint.textContent='Solo se venden múltiplos de '+STEP+' (se ajustará a '+fmt(qty)+').'; }
+    else if(digits!==''){ hint.textContent='El mínimo es '+fmt(MIN)+' V-Bucks.'; }
+  });
+  function fix(){ var n=parseInt(num.value,10); if(isNaN(n)||n<MIN){ if(num.value!=='') hint.textContent='El mínimo es '+fmt(MIN)+' V-Bucks.'; n=MIN; } else if(n%STEP!==0){ hint.textContent='Solo se venden múltiplos de '+STEP+': ajustado a '+fmt(Math.round(n/STEP)*STEP)+' V-Bucks.'; } set(n,true); }
+  num.addEventListener('blur',fix);
+  num.addEventListener('keydown',function(e){ if(e.key==='Enter'){ fix(); num.blur(); } });
 
-                <label for="citaHora">
-                    Hora (solo horarios libres del barbero)
-                </label>
-                <select id="citaHora" required>
-                    <option value="">
-                        Elige barbero y fecha
-                    </option>
-                </select>
+  $('buy').onclick=function(){ fix(); toast.textContent='✓ '+fmt(qty)+' V-Bucks agregados al carrito por USD '+price(qty); };
 
-                <label for="citaNotas">Notas (opcional)</label>
-                <input
-                    type="text"
-                    id="citaNotas"
-                    maxlength="100"
-                    placeholder="Ej: llevar foto de referencia"
-                >
+  var ov=$('ov');
+  $('x').onclick=function(){ ov.hidden=true; };
+  $('open').onclick=function(){ ov.hidden=false; };
+  ov.addEventListener('click',function(e){ if(e.target===ov) ov.hidden=true; });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') ov.hidden=true; });
 
-                <p id="resumenPrecio">Total: Bs 0</p>
-
-                <button type="submit" id="btnCita">
-                    Reservar cita
-                </button>
-
-                <button
-                    type="button"
-                    id="btnCancelarCita"
-                    class="gris"
-                    hidden
-                >
-                    Cancelar
-                </button>
-            </form>
-
-        </div>
-
-        <!-- IMAGEN DEL SERVICIO -->
-    <aside class="vista-servicio">
-
-        <img id="imagenServicio" src="imagenes/barberia.jpg" alt="Imagen de la barbería">
-        <h3 id="nombreServicioImagen">Elige un servicio</h3>
-
-    </aside>
-
-    </div>
-    <!-- LISTA DE CITAS -->
-    <h3>Lista de citas</h3>
-
-    <input
-        type="text"
-        id="buscarCita"
-        placeholder="Buscar por cliente, barbero o servicio"
-    >
-
-    <select id="filtroEstado">
-        <option value="">Todos los estados</option>
-        <option value="Pendiente">Pendiente</option>
-        <option value="Completada">Completada</option>
-        <option value="Cancelada">Cancelada</option>
-    </select>
-
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Barbero</th>
-                <th>Servicio</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Total</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-
-        <tbody id="listaCitas"></tbody>
-    </table>
-
-    <p id="ingresos"></p>
-</section>
-<!-- ARCHIVOS -->
-        <section id="archivos">
-            <h2>Guardar y recuperar datos</h2>
-            <button type="button" id="btnExportar">Exportar JSON</button>
-            <button type="button" id="btnCSV">Exportar reporte CSV</button>
-            <label for="archivoImportar" class="boton-label">Importar JSON</label>
-            <input type="file" id="archivoImportar" accept=".json" hidden>
-        </section>
-    </div>
-    <footer>
-        <p></p>
-    </footer>
-    <script src="script.js"></script>
+  set(MIN,true);
+})();
+</script>
 </body>
 </html>
