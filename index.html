@@ -127,7 +127,15 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
   num.addEventListener('blur',fix);
   num.addEventListener('keydown',function(e){ if(e.key==='Enter'){ fix(); num.blur(); } });
 
-  $('buy').onclick=function(){ fix(); toast.textContent='✓ '+fmt(qty)+' V-Bucks agregados al carrito por USD '+price(qty); };
+  var WA='59176611394';
+  $('buy').onclick=function(){
+    fix();
+    var msg='Hola Sushi Drop, quiero comprar Pavos Automáticos:\n• Cantidad: '+fmt(qty)+' V-Bucks\n• Total: USD '+price(qty);
+    var url='https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
+    toast.textContent='Abriendo WhatsApp con tu pedido…';
+    var w=window.open(url,'_blank','noopener');
+    if(!w) window.location.href=url;
+  };
 
   var ov=$('ov');
   $('x').onclick=function(){ ov.hidden=true; };
